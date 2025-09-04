@@ -8,6 +8,7 @@ import {
 
 import FormInput from "../form-input/form-input.component.jsx";
 import Button from "../button/button.component.jsx";
+
 import "./sign-in.styles.scss";
 
 const defaultFormFields = {
@@ -24,8 +25,7 @@ const SignInForm = () => {
   };
 
   const signInWithGoogle = async () => {
-    const { user } = await signInWithGooglePopup();
-    await createUserDocumentFromAuth(user);
+    await signInWithGooglePopup();
   };
 
   const handleChange = (event) => {
@@ -38,11 +38,10 @@ const SignInForm = () => {
     event.preventDefault();
 
     try {
-      const response = await signInAuthUserWithEmailAndPassword(
+      const { user } = await signInAuthUserWithEmailAndPassword(
         email,
         password
       );
-      console.log(response);
       resetFormFields();
     } catch (error) {
       if (error.code === "auth/invalid-credential") {
